@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Data files (contain personal info & state)
+jobs_database.json
+job_applications.xlsx
+applied_jobs.json
+applied_jobs.csv
+resume.pdf
+*.pdf
+bot.log
+fit_reports.json
+interview_prep.json
+profile_marketing.json
+logs/
+data/
+chrome_profile/
+MY_DETAILS_FOR_APPROVAL.md
+create_cover_letter.py
+*.docx
+debug_*.png
+
+# Node
+node_modules/
+dashboard/frontend/.next/
+dashboard/frontend/out/
+dashboard/frontend/.netlify/
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo

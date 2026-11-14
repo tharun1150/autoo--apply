@@ -1,0 +1,82 @@
+version: "3.8"
+
+# ==============================================================================
+# Docker Compose: CrewAI Multi-Agent Execution Stack
+# ==============================================================================
+# Usage:
+#   docker compose -f docker-compose.crewai.yml up --build -d
+#   docker compose -f docker-compose.crewai.yml --profile with-n8n up --build -d
+# ==============================================================================
+
+services:
+  # ----------------------------------------------------------------------------
+  # Backend API & CrewAI Multi-Agent Worker
+  # ----------------------------------------------------------------------------
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+      target: crewai
+    container_name: agentapply-crewai-backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - AGENT_FRAMEWORK=crewai
+      - HEADLESS=true
+      - RESUME_PATH=/app/resume.pdf
+      - JOB_DB_PATH=/app/jobs_database.json
+      - EXCEL_TRACKER_PATH=/app/job_applications.xlsx
+    ports:
+      - "8002:8002"
+    volumes:
+      # Persistent application state & audit logs
+      - ./jobs_database.json:/app/jobs_database.json
+      - ./applied_jobs.json:/app/applied_jobs.json
+      - ./job_applications.xlsx:/app/job_applications.xlsx
+      - ./logs:/app/logs
+      - ./resume.pdf:/app/resume.pdf:ro
+    # Allocate shared memory for Chromium browser automation (prevents Playwright OOM crashes)
+    shm_size: "2gb"
+    ipc: host
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/api/stats"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - agentapply-network
+
+  # ----------------------------------------------------------------------------
+  # Optional: n8n Workflow Automation Engine
+  # Run with: --profile with-n8n
+  # ----------------------------------------------------------------------------
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: agentapply-crewai-n8n
+    profiles:
+      - with-n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=false
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+      - WEBHOOK_URL=http://localhost:5678/
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - agentapply-network
+
+networks:
+  agentapply-network:
+    driver: bridge
+    name: agentapply-network
+
+volumes:
+  n8n_data:
+    name: agentapply-crewai-n8n-data

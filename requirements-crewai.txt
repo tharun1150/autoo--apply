@@ -1,0 +1,13 @@
+# Base requirements
+-r requirements.txt
+
+# CrewAI Multi-Agent Ecosystem
+crewai>=0.80.0
+crewai-tools>=0.14.0
+
+# LangChain Support
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-community>=0.3.0
+langchain-openai>=0.2.0
+tiktoken>=0.7.0

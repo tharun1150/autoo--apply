@@ -1,0 +1,22 @@
+# Core Automation & Scraping
+selenium>=4.15.0
+undetected-chromedriver>=3.5.5
+playwright>=1.40.0
+schedule>=1.2.1
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+
+# PDF & Spreadsheet Processing
+PyPDF2>=3.0.0
+pypdf>=3.0.0
+openpyxl>=3.1.2
+
+# Backend & Web Framework
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+websockets>=12.0
+pydantic>=2.0.0
+python-dotenv>=1.0.0
+
+# Base LLM SDK
+openai>=1.12.0

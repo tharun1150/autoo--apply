@@ -1,0 +1,46 @@
+# Version control
+.git
+.gitignore
+
+# Python cache & virtual environments
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv
+venv/
+env/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing & logs
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+logs/
+
+# Frontend builds & node modules (handled inside frontend context)
+dashboard/frontend/node_modules
+dashboard/frontend/.next
+dashboard/frontend/.netlify
+
+# Local environment & secret files (mount via docker volume or env_file)
+.env.local
+.DS_Store
+Thumbs.db
